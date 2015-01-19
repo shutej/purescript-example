@@ -6,8 +6,8 @@ module.exports = function(grunt) {
 
     psc: {
       options: {
-        main: "Example",
-        modules: ["Example"]
+        main: "Main",
+        modules: ["Main"]
       },
       all: {
         src: ["<%=srcFiles%>"],
@@ -15,10 +15,23 @@ module.exports = function(grunt) {
       }
     },
 
+    uglify: {
+      options: {
+        mangle: true,
+        compress: true,
+      },
+      all: {
+        files: {
+          "dist/Main.min.js": ["<%= psc.all.dest %>"]
+        }
+      }
+    },
+
     dotPsci: ["<%=srcFiles%>"]
   });
 
   grunt.loadNpmTasks("grunt-purescript");
+  grunt.loadNpmTasks("grunt-contrib-uglify");
 
-  grunt.registerTask("default", ["psc:all", "dotPsci"]);
+  grunt.registerTask("default", ["psc:all", "uglify:all", "dotPsci"]);
 };
